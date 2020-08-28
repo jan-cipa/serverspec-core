@@ -128,8 +128,8 @@ DEPENDENCIES
   rspec_junit_formatter!
   rubocop (~> 0.49.0)
   rubocop-junit-formatter!
-  serverspec (~> 2.20)
-  specinfra (~> 2.68)
+  serverspec (~> 2.41.5)
+  specinfra (~> 2.82)
 
 BUNDLED WITH
    1.15.2
