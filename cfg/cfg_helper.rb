@@ -6,8 +6,12 @@ require 'parseconfig'
 require 'yaml'
 
 def get_environment
+  puppet_conf = '/etc/puppetlabs/puppet/puppet.conf'
+  unless File.exists?(puppet_conf)
+    puppet_conf = '/etc/puppet/puppet.conf'
+  end
   env = ENV['SERVERSPEC_ENV'] ||
-              ParseConfig.new('/etc/puppet/puppet.conf')['main']['environment']
+              ParseConfig.new(puppet_conf)['main']['environment']
   raise "Environment is not detected, try to set SERVERSPEC_ENV variable..." if env.nil?
   env
 end
