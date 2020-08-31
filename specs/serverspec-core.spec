@@ -1,51 +1,65 @@
 %global install_dir /opt/gdc/serverspec-core
+%if 0%{?el7}
+# SCL related definitions (CentOS 7 only)
 %global scl rh-ruby26
 %global _scl_prefix /opt/rh/%{scl}
+%endif
 
 Name:             serverspec-core
 Summary:          GoodData ServerSpec integration
-Version:          2.0.0
-Release:          3%{?dist}.gdc1
+Version:          2.0.1
+Release:          1%{?dist}.gdc1
 
-Vendor:           GoodData
 Group:            GoodData/Tools
 
 License:          ISC
 URL:              https://github.com/gooddata/serverspec-core
 Source0:          %{name}.tar.gz
-BuildArch:        x86_64
-BuildRoot:        %{_tmppath}/%{name}-%{version}-root
 
+%if 0%{?el7}
 BuildRequires:    %{scl}-ruby
 BuildRequires:    %{scl}-ruby-devel
 BuildRequires:    %{scl}-rubygem-rake
 BuildRequires:    %{scl}-rubygem-bundler
-BuildRequires:    git gcc-c++
 Requires:         %{scl}-rubygem-bundler
+%else
+BuildRequires: ruby
+BuildRequires: ruby-devel
+BuildRequires: rubygem-rake
+BuildRequires: rubygem-bundler
+Requires:      rubygem-bundler
+%endif
+BuildRequires: git gcc-c++ make
 
 %prep
 %setup -q -c
 
 %build
+%if 0%{?el7}
 source %{_scl_prefix}/enable
+%endif
 bundle install --standalone --binstubs --without=development
 
 %install
-rm -fr $RPM_BUILD_ROOT
 mkdir -p $RPM_BUILD_ROOT%{install_dir}
 cp -a * .bundle $RPM_BUILD_ROOT%{install_dir}
+%if 0%{?el7}
 cp -a /opt/rh/%{scl}/root/usr/share/gems/* $RPM_BUILD_ROOT%{install_dir}/bundle/ruby/
+%else
+cp -a /usr/share/gems/* $RPM_BUILD_ROOT%{install_dir}/bundle/ruby/
+%endif
 install -d $RPM_BUILD_ROOT/usr/bin
 mv ./bin/serverspec $RPM_BUILD_ROOT/usr/bin/serverspec
+%if 0%{?el7}
 sed -i 's,@@SCL_PREFIX@@,%{_scl_prefix},g' $RPM_BUILD_ROOT/usr/bin/serverspec
+%else
+sed -i '/@@SCL_PREFIX@@/d' $RPM_BUILD_ROOT/usr/bin/serverspec
+%endif
 install -d $RPM_BUILD_ROOT%{_sysconfdir}/sysconfig/
 mv $RPM_BUILD_ROOT%{install_dir}/serverspec.sysconfig $RPM_BUILD_ROOT%{_sysconfdir}/sysconfig/serverspec
 
-%clean
-rm -rf $RPM_BUILD_ROOT
-
 %description
-GoodData ServerSpec integration - core package
+GoodData ServerSpec integration - core package.
 
 %files
 %attr(0755, root, root) %dir %{install_dir}

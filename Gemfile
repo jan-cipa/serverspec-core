@@ -1,8 +1,8 @@
 source 'https://rubygems.org'
 
 gem "rake"
-gem "serverspec", '~> 2.20'
-gem "specinfra", '~> 2.68'
+gem "serverspec", '~> 2.41.5'
+gem "specinfra", '~> 2.82'
 gem "activesupport", '~> 4'
 gem "docker-api"
 gem "net-ssh", '~> 2.0'
