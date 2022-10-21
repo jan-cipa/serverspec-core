@@ -13,6 +13,7 @@ gem "rspec_junit_formatter", git: 'https://github.com/gooddata/rspec_junit_forma
 gem 'rubocop', '~> 0.49.0'
 gem 'rubocop-junit-formatter', git: 'https://github.com/gooddata/rubocop-junit-formatter'
 gem 'rexml'
+gem 'facter'
 
 group :cista do
   gem 'jira-ruby', require: 'jira'
