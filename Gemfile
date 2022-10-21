@@ -8,10 +8,11 @@ gem "docker-api"
 gem "net-ssh", '~> 2.0'
 gem "colorize"
 gem "parseconfig"
-gem "rspec_junit_formatter", github: 'gooddata/rspec_junit_formatter',
+gem "rspec_junit_formatter", git: 'https://github.com/gooddata/rspec_junit_formatter',
                              branch: 'yut-qa-5784'
 gem 'rubocop', '~> 0.49.0'
-gem 'rubocop-junit-formatter', github: 'gooddata/rubocop-junit-formatter'
+gem 'rubocop-junit-formatter', git: 'https://github.com/gooddata/rubocop-junit-formatter'
+gem 'rexml'
 
 group :cista do
   gem 'jira-ruby', require: 'jira'
